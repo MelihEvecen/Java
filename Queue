@@ -1,0 +1,80 @@
+/*public class Queue {
+    private int[] queueArray;
+    private int size;
+    private int front;
+    private int rear;
+
+    public Queue(int size) {
+        this.size = size;
+        queueArray = new int[size];
+        front = 0;
+        rear = -1;
+    }
+
+    // Eleman ekleme (enqueue)
+    public void enqueue(int data) {
+        if (isFull()) {
+            System.out.println("Queue is full!");
+        } else {
+            rear++;
+            queueArray[rear] = data;
+            System.out.println(data + " added to the queue");
+        }
+    }
+
+    // Eleman çıkarma (dequeue)
+    public void dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty!");
+        } else {
+            int removedData = queueArray[front];
+            front++; // Kaydırma yerine front indeksini artırıyoruz
+            System.out.println(removedData + " removed from the queue");
+
+            // Kuyruk tamamen boşaldığında indeksleri sıfırla
+            if (front > rear) {
+                front = 0;
+                rear = -1;
+            }
+        }
+    }
+
+    // Kuyruğun dolu olup olmadığını kontrol et
+    private boolean isFull() {
+        return rear == size - 1;
+    }
+
+    // Kuyruğun boş olup olmadığını kontrol et
+    private boolean isEmpty() {
+        return rear < front;
+    }
+
+    // Kuyruktaki elemanları yazdır (isteğe bağlı)
+    public void printQueue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty!");
+        } else {
+            System.out.print("Queue: ");
+            for (int i = front; i <= rear; i++) {
+                System.out.print(queueArray[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}*/
+
+public class Main {
+    public static void main(String[] args) {
+       Queue queue=new Queue(4);
+       queue.enqueue(5);
+        queue.enqueue(7);
+        queue.enqueue(8);
+        queue.enqueue(9);
+        queue.enqueue(9);
+        queue.dequeue();
+        queue.dequeue();
+        queue.dequeue();
+        queue.dequeue();
+        queue.dequeue();
+        }
+    }
