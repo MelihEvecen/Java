@@ -1,43 +1,151 @@
-class Node {
-    int data;
-    Node left;
-    Node right;
+// BTree sınıfı: Binary Tree (İkili Ağaç) işlemleri
+public class BTree {
+    Node root;  // Ağaç kök düğümü
 
-    Node(int data) {
+    // Yapıcı metod: Başlangıçta kök null
+    public BTree() {
+        root = null;
+    }
+
+    // Yeni bir düğüm oluşturma
+    Node newNode(int data) {
+        root = new Node(data);
+        System.out.println(data + " Eklendi");
+        return root;
+    }
+
+    // Ağaçta veri ekleme (insert)
+    Node insert(Node root, int data) {
+        // Eğer kök null değilse, veriyi yerleştireceğiz
+        if (root != null) {
+            if (data < root.data)
+                root.left = insert(root.left, data);  // Sol alt ağaçta yerleştir
+            else
+                root.right = insert(root.right, data);  // Sağ alt ağaçta yerleştir
+        } else {
+            root = newNode(data);  // Eğer root null ise yeni bir düğüm oluştur
+        }
+        return root;
+    }
+
+    // PreOrder: Kök -> Sol -> Sağ
+    void preOrder(Node root) {
+        if (root != null) {
+            System.out.print(root.data + " ");  // Kökü yazdır
+            preOrder(root.left);  // Sol alt ağaca git
+            preOrder(root.right);  // Sağ alt ağaca git
+        }
+    }
+
+    // PostOrder: Sol -> Sağ -> Kök
+    void postOrder(Node root) {
+        if (root != null) {
+            postOrder(root.left);  // Sol alt ağaca git
+            postOrder(root.right);  // Sağ alt ağaca git
+            System.out.print(root.data + " ");  // Kökü yazdır
+        }
+    }
+
+    // InOrder: Sol -> Kök -> Sağ
+    void inOrder(Node root) {
+        if (root != null) {
+            inOrder(root.left);  // Sol alt ağaca git
+            System.out.print(root.data + " ");  // Kökü yazdır
+            inOrder(root.right);  // Sağ alt ağaca git
+        }
+    }
+
+    // Bir düğümü bulma
+    Node find(Node root, int key) {
+        while (root != null) {
+            if (root.data == key)
+                return root;  // Eğer kök verisi eşitse, döndür
+            else if (key < root.data)
+                root = root.left;  // Veriden küçükse sol alt ağaçta aramaya devam et
+            else
+                root = root.right;  // Veriden büyükse sağ alt ağaçta aramaya devam et
+        }
+        return null;  // Eğer bulunamazsa null döndür
+    }
+
+    // Maksimum değeri bulma (En sağdaki düğüm)
+    Node findMax(Node root) {
+        if (root != null) {
+            while (root.right != null)  // Sağ çocuğa giderek en sağdaki düğümü bul
+                root = root.right;
+        }
+        return root;  // En sağdaki düğümü döndür
+    }
+
+    // Minimum değeri bulma (En soldaki düğüm)
+    Node findMin(Node root) {
+        if (root != null) {
+            while (root.left != null)  // Sol çocuğa giderek en soldaki düğümü bul
+                root = root.left;
+        }
+        return root;  // En soldaki düğümü döndür
+    }
+}
+
+// Node sınıfı: Ağaçtaki her düğüm
+class Node {
+    int data;  // Düğümün verisi
+    Node left;  // Sol alt ağaç
+    Node right;  // Sağ alt ağaç
+
+    // Node yapıcısı
+    public Node(int data) {
         this.data = data;
         left = null;
         right = null;
     }
 }
 
-class BTree {
-    Node root;
-
-    BTree() {
-        root = null;
-    }
-
-    Node newNode(int data) {
-        root = new Node(data);
-        System.out.println("Node added");
-        return root;
-    }
-
-    Node insert(Node root, int data) {
-        if (root != null) {
-            if (data < root.data)
-                root.left = insert(root.left, data);
-            else
-                root.right = insert(root.right, data);
-        } else
-            root = newNode(data);
-        return root;
-    }
-}
-
-class Main {
+// Main sınıfı: Programın başlangıç noktası
+public class Main {
     public static void main(String[] args) {
+        // BTree nesnesi oluşturma ve verileri ekleme
         BTree bt = new BTree();
         bt.root = bt.insert(bt.root, 10);
+        bt.root = bt.insert(bt.root, 12);
+        bt.root = bt.insert(bt.root, 8);
+        bt.root = bt.insert(bt.root, 15);
+        bt.root = bt.insert(bt.root, 5);
+        bt.root = bt.insert(bt.root, 30);
+        bt.root = bt.insert(bt.root, 1);
+
+        // Prefix (PreOrder) gezinti
+        System.out.print("Prefix: ");
+        bt.preOrder(bt.root);
+        System.out.println("");
+
+        // Postfix (PostOrder) gezinti
+        System.out.print("Postfix: ");
+        bt.postOrder(bt.root);
+        System.out.println(" ");
+
+        // Veriyi bulma
+        int key = 10;
+        Node foundNode = bt.find(bt.root, key);
+        if (foundNode != null) {
+            System.out.println(key + " Bulundu");
+        } else {
+            System.out.println(key + " Bulunamadı");
+        }
+
+        // Veriyi bulma
+        key = 5;
+        foundNode = bt.find(bt.root, key);
+        if (foundNode != null) {
+            System.out.println(key + " Bulundu");
+        } else {
+            System.out.println(key + " Bulunamadı");
+        }
+
+        // Maksimum değeri bulma
+        Node maxNode = bt.findMax(bt.root);
+        if (maxNode != null) {
+            System.out.println("Max value is: " + maxNode.data);
+        }
     }
 }
